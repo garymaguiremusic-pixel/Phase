@@ -60,6 +60,25 @@ jobs:
           path: pluginval-logs/
           if-no-files-found: ignore
 
+      - name: Commit the built plug-in into Builds/Windows (main only)
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        shell: pwsh
+        run: |
+          $dest = "Builds\Windows"
+          if (Test-Path $dest) { Remove-Item -Recurse -Force $dest }
+          New-Item -ItemType Directory -Force -Path $dest | Out-Null
+          Copy-Item -Recurse "build\PhaseCheck_artefacts\Release\VST3\Phase Check.vst3" $dest\
+          Copy-Item PhaseCheck-Windows-x64.zip $dest\
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f $dest
+          git diff --cached --quiet
+          if ($LASTEXITCODE -ne 0) {
+            git commit -m "Windows VST3 build from ${{ github.sha }} [skip ci]"
+            git push origin HEAD:main
+          }
+          exit 0
+
       - name: Attach to GitHub Release (tags only)
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2

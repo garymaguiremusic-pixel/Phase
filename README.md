@@ -18,6 +18,8 @@ Put Phase Check on your **kick** track, send a second signal (bass, another kick
 
 ### Option A: download a ready-made build (no coding)
 
+The latest Windows build is committed to this repository in **`Builds/Windows/`**: the `Phase Check.vst3` folder and `PhaseCheck-Windows-x64.zip` (which also has the Standalone app). Download the zip from GitHub (open it, then **Download raw file**), unzip it, and copy `Phase Check.vst3` as in step 3 below. Alternatively:
+
 Every push to this repository is built on Windows by GitHub Actions.
 
 1. On GitHub, open the **Actions** tab → **Build Windows VST3** → the most recent green run.
